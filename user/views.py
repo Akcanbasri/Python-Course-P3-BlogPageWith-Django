@@ -85,4 +85,6 @@ def loginUser(request):
 
 
 def logoutUser(request):
-    pass
+    logout(request)
+    messages.success(request, "You have successfully logged out!")
+    return redirect("index")

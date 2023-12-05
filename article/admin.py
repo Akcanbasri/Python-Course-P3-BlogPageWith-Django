@@ -9,5 +9,7 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ["title"]
     search_fields = ["title"]
     list_filter = ["created_date"]
+    # delete some articles from admin panel
+    actions = ["delete_selected"]
     class Meta:
         model = Article
