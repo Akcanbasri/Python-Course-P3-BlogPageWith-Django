@@ -1,0 +1,32 @@
+{% extends "layout.html" %} {% block body %}
+<h3>Detail Page</h3>
+<hr />
+<div class="row">
+  <div class="col-lg-8">
+    <!-- Post content-->
+    <article>
+      <!-- Post header-->
+      <header class="mb-4">
+        <!-- Post title-->
+        <h1 class="fw-bolder mb-1">{{article.title}}</h1>
+        <!-- Post meta content-->
+        <div class="text-muted fst-italic mb-2">
+          Posted on {{article.created_date}} by {{article.author}}
+        </div>
+      <!-- Preview image figure-->
+      {% comment %} <figure class="mb-4">
+        <img
+          class="img-fluid rounded"
+          src="https://dummyimage.com/900x400/ced4da/6c757d.jpg"
+          alt="..."
+        />
+      </figure> {% endcomment %}
+      <!-- Post content-->
+      <section class="mb-5">
+       {{article.content}}
+      </section>
+    </article>
+  </div>
+</div>
+
+{% endblock body %}

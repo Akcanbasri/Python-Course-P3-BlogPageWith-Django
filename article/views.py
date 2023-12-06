@@ -35,3 +35,8 @@ def addarticle(request):
         return redirect("index")
 
     return render(request, "addarticle.html", {"form": form})
+
+
+def detail(request, id):
+    article = Article.objects.get(id=id)
+    return render(request, "detail.html", {"article": article})
