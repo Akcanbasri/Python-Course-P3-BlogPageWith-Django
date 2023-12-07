@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import CreateArticle
 from django.contrib import messages
-from .models import Article
+from .models import Article, Comment
 
 
 # Create your views here.
@@ -45,7 +45,11 @@ def addarticle(request):
 def detail(request, id):
     # article = Article.objects.get(id=id)
     article = get_object_or_404(Article, id=id)
-    return render(request, "detail.html", {"article": article})
+
+    comments = Comment.objects.filter(article=article)
+    c = {"article": article, "comments": comments}
+
+    return render(request, "detail.html", c)
 
 
 @login_required(login_url="user:login")
@@ -75,7 +79,22 @@ def articlesPage(request):
     if keyword:
         articles = Article.objects.filter(title__contains=keyword)
         return render(request, "articlesPage.html", {"articles": articles})
-    
+
     articles = Article.objects.all().order_by("-created_date")
     c = {"articles": articles}
     return render(request, "articlesPage.html", c)
+
+
+def comment(request, id):
+    article = get_object_or_404(Article, id=id)
+    if request.method == "POST":
+        comment_author = request.POST.get("comment_author")
+        comment_content = request.POST.get("comment_content")
+        newComment = Comment(
+            article=article,
+            author=comment_author,  # changed from comment_author
+            content=comment_content,  # changed from comment_content
+        )
+        newComment.save()
+
+    return redirect(reverse("article:detail", kwargs={"id": id}))

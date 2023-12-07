@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block body %}
+{% load static %}
 <h3>Detail Page</h3>
 <hr />
 <div class="row">
@@ -29,6 +30,73 @@
        {{article.content|safe}}
       </section>
     </article>
+    <hr>
+    <h5>Comments</h5>
+    {% if comments %}
+      <div class="jumbotron">
+      <form action='{% url "article:comment" article.id%}' method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="usernameInput">Username</label>
+          <input name="comment_author" type="text" class="form-control" id="usernameInput" placeholder="Enter your username" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="commentInput">Comment</label>
+          <textarea name="comment_content" class="form-control" id="commentInput" rows="3" placeholder="Join the discussion and leave a comment!" required></textarea>
+          <div class="invalid-feedback">
+            Please leave a comment.
+          </div>
+        </div>
+
+        <!-- Add a button to submit the form -->
+        <button type="submit" class="btn btn-danger mt-2">Submit Comment</button>
+      </form>
+    </div>
+    {% for comment in comments %}<div class="media">
+      <img class="mr-3" src="{% static 'img/indir.png' %}" alt="Profile Picture" width="50">
+      <div class="media-body">
+        <h5 class="mt-0">{{comment.author|safe}}</h5>
+        {{comment.created_date}}
+        <br>
+        {{comment.content|safe}}
+      </div>
+    </div>
+    <br>
+    {% endfor %}
+    
+    {% else %}
+    <div class="jumbotron">
+      <form action='{% url "article:comment" article.id%}' method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="usernameInput">Username</label>
+          <input name="comment_author" type="text" class="form-control" id="usernameInput" placeholder="Enter your username" required>
+          <div class="invalid-feedback">
+            Please choose a username.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="commentInput">Comment</label>
+          <textarea name="comment_content" class="form-control" id="commentInput" rows="3" placeholder="Join the discussion and leave a comment!" required></textarea>
+          <div class="invalid-feedback">
+            Please leave a comment.
+          </div>
+        </div>
+
+        <!-- Add a button to submit the form -->
+        <button type="submit" class="btn btn-danger mt-2">Submit Comment</button>
+      </form>
+    </div>
+
+    <div class="alert alert-danger">
+      <p>No Comments, Start Conversation</p>
+    </div>
+    {% endif %}
+   
+  
   </div>
 </div>
 

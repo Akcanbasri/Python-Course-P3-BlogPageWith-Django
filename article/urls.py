@@ -11,5 +11,6 @@ urlpatterns = [
     path("update/<int:id>", views.update, name="update"),
     path("delete/<int:id>", views.delete, name="delete"),
     path("articles", views.articles, name="articles"),
-    path("", views.articlesPage, name="articlesPage")
+    path("", views.articlesPage, name="articlesPage"),
+    path("comment/<int:id>", views.comment, name="comment"),
 ]
