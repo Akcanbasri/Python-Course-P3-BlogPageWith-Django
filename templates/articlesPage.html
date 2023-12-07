@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block body %}
+<h3>Articles</h3>
+<hr>
+<form>
+    {% csrf_token %}
+    <input type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Seacrch">
+    <button type="submit" class="btn btn-danger">Search</button>
+</form>
+<br>
+{% if articles %}
+{% for article in  articles%}
+<div class="row">
+    <div class="col-lg-8">
+      <!-- Post content-->
+      <article>
+        <!-- Post header-->
+        <header class="mb-4">
+          <!-- Post title-->
+          <a href="{% url 'article:detail' article.id %}"><h1 class="fw-bolder mb-1">{{article.title}}</h1></a>
+          <!-- Post meta content-->
+          <div class="text-muted fst-italic mb-2">
+            Posted on {{article.created_date}} by {{article.author}}
+          </div>
+       <!-- Preview image figure-->
+         
+        <!-- Post content-->
+        <section class="mb-5">
+         {{article.content|safe|truncatechars:200}}
+        </section>
+      </article>
+      <a href='{% url "article:detail" article.id %}' class="btn btn-danger">Read All</a>
+      <hr>
+    </div>
+  </div>
+{% endfor %}
+{% else %}
+<div class= "alert alert-danger">
+    <p>There are no articles</p>
+</div>
+{% endif %}
+
+{% endblock body %}
